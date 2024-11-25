@@ -11,6 +11,7 @@
     <modules>
         <module>proxy</module>
         <module>lock</module>
+        <module>nio</module>
     </modules>
 
     <properties>
