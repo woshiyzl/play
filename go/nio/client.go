@@ -2,10 +2,17 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"net"
+
 )
 
+type Client struct {
+	Name string `json:"name"`
+	Data string `json:"data"`
+	HostId string `json:"hostId"`
+}
 func main() {
 	serverAddr := "127.0.0.1:8888"
 	// 连接到 Java 服务端
@@ -22,11 +29,16 @@ func main() {
 	writer := bufio.NewWriter(conn)
 
 	// 准备发送的数据
-	message := `{"name":"test", "data":"hello", "hostId":"1234"}`
-	fmt.Println("发送消息到服务端:", message)
+	clientDto := Client{ Name: "test", Data: "hello", HostId: "1234" }
+	message,err := json.Marshal(clientDto)
+	if(err != nil){
+		fmt.Println("格式转成错误",err)		
+		return
+	}
+	fmt.Println("发送消息到服务端:", string(message))
 
 	// 发送消息并加上换行符
-	_, err = writer.WriteString(message + "\n")
+	_, err = writer.WriteString(string(message) + "\n")
 	if err != nil {
 		fmt.Println("发送消息失败:", err)
 		return

@@ -10,12 +10,12 @@ public class ClientMessageProcessImpl implements ProcessMessageFunction<ClientHe
 
     @Override
     public String apply(ClientHello clientHello, AsynchronousSocketChannel channel) {
-        response2ClientMessage(channel, clientHello.getData());
+        response2ClientMessage(channel, clientHello.getHostId()+":"+clientHello.getData());
         return null;
     }
 
     // 广播消息给所有客户端
-    private static void response2ClientMessage(AsynchronousSocketChannel sender, String message) {
+    private void response2ClientMessage(AsynchronousSocketChannel sender, String message) {
         ByteBuffer buffer = ByteBuffer.wrap((message + System.lineSeparator()).getBytes());
         sender.write(buffer.duplicate(), buffer, new CompletionHandler<Integer, ByteBuffer>() {
             @Override

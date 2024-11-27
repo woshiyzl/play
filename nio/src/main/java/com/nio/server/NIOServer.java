@@ -31,8 +31,7 @@ public class NIOServer {
                 try {
                     System.out.println("客户端连接: " + clientChannel.getRemoteAddress());
                     // 处理客户端的读写事件
-                    ClientMessageProcessImpl clientMessageProcess = new ClientMessageProcessImpl();
-                    handleClient(clientChannel,clientMessageProcess);
+                    handleClient(clientChannel,new ClientMessageProcessImpl());
                     // 接收下一个连接
                     serverChannel.accept(null, this);
                 } catch (IOException e) {

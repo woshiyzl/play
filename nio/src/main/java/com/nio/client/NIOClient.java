@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.UUID;
 
 public class NIOClient {
-    private static final String HOST_UUID = "test1";
     public static void main(String[] args)
     {
         try (Socket socket = new Socket(NIOConst.serverIp, NIOConst.serverPort)) {
@@ -20,7 +20,7 @@ public class NIOClient {
             ClientHello clientHello = new ClientHello();
             clientHello.setName("test");
             clientHello.setData("hello");
-            clientHello.setHostId(HOST_UUID);
+            clientHello.setHostId(UUID.randomUUID().toString());
             writer.println(JSONObject.toJSONString(clientHello)); // 发送消息给服务端
             System.out.println("服务端回应: " + reader.readLine());
         } catch (IOException e) {
